@@ -10,15 +10,18 @@ const Reservation = sequelize.define("reservation", {
   },
   phoneNumber: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
+    defaultValue: "",
   },
   contactName: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
+    defaultValue: "",
   },
   holidayId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
+    defaultValue: "",
   },
 });
 

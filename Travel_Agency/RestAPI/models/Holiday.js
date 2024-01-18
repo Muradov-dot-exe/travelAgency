@@ -10,27 +10,33 @@ const Holiday = sequelize.define("holiday", {
   },
   locationId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
+    defaultValue: "",
   },
   title: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
+    defaultValue: "",
   },
   startDate: {
     type: DataTypes.DATEONLY,
-    allowNull: false,
+    allowNull: true,
+    defaultValue: "",
   },
   duration: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
+    defaultValue: "",
   },
   price: {
     type: DataTypes.DOUBLE,
-    allowNull: false,
+    allowNull: true,
+    defaultValue: "",
   },
   freeSlots: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
+    defaultValue: "",
   },
 });
 

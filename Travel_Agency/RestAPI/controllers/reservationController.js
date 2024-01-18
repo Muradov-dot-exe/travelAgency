@@ -15,6 +15,7 @@ router.get("/reservations", async (req, res) => {
 // Get one reservation by ID
 router.get("/reservations/:id", async (req, res) => {
   const { id } = req.params;
+
   try {
     const reservation = await Reservation.findByPk(id, { include: [Holiday] });
     if (reservation) {
@@ -29,13 +30,24 @@ router.get("/reservations/:id", async (req, res) => {
 
 // Create a new reservation
 router.post("/reservations", async (req, res) => {
-  const { contactName, phoneNumber, holidayId } = req.body;
+  const { contactName, phoneNumber, holiday } = req.body;
+
   try {
+    if (!contactName || !phoneNumber || !holiday) {
+      return res.status(400).json({
+        error:
+          "Invalid data. Please provide contactName, phoneNumber, and holiday.",
+      });
+    }
+
+    const holidayId = holiday;
+
     const reservation = await Reservation.create({
       contactName,
       phoneNumber,
       holidayId,
     });
+
     res.status(201).json(reservation);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -73,6 +85,28 @@ router.delete("/reservations/:id", async (req, res) => {
     } else {
       res.status(404).json({ error: "Reservation not found" });
     }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+//образен ендпоинт за намиране на резервации чрез телефонент номер , в момента като натиснем search бутона в страницата find reservation , полудаваме някаква FE грешка
+router.get("/find-reservation", async (req, res) => {
+  const { phoneNumber } = req.query;
+
+  try {
+    if (!phoneNumber) {
+      return res
+        .status(400)
+        .json({ error: "Please provide a phone number for the search." });
+    }
+
+    const reservations = await Reservation.findAll({
+      where: { phoneNumber },
+      include: [Holiday],
+    });
+
+    res.json(reservations);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

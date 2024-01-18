@@ -31,7 +31,6 @@ router.get("/locations/:id", async (req, res) => {
 
 // Create a new location
 router.post("/locations", async (req, res) => {
-  console.log(req.body);
   const { street, number, city, country, imageUrl } = req.body;
   try {
     const location = await Location.create({
